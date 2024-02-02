@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+    command: gunicorn file_upload_project.wsgi:application -w 4 -b 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - celery
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - SECRET_KEY=${SECRET_KEY}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    networks:
+      - project_network
+
+  redis:
+    image: redis
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - project_network
+
+  db:
+    image: postgres:12
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - project_network
+
+  celery:
+    build:
+      context: .
+    command: celery -A file_upload_project worker -l info
+    depends_on:
+      - db
+    networks:
+      - project_network
+
+networks:
+  project_network:
+    driver: bridge

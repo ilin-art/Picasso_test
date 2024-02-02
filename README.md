@@ -16,7 +16,7 @@ To get this project up and running, follow these steps:
 1. Clone this repository:
 
    ```shell
-   git clone https://github.com/ilin-art/ilin-art.github.io.git
+   git clone https://github.com/ilin-art/Picasso_test.git
    cd upload_files
 
 2. Build and start the services using Docker Compose:
@@ -29,8 +29,8 @@ To get this project up and running, follow these steps:
 
 4. Access the web application at
     ```shell
-    GET https://github.com/ilin-art/ilin-art.github.io/api/v1/files/ # Get all objects
-    POST https://github.com/ilin-art/ilin-art.github.io/api/v1/upload/ # Upload file (You can attach any file)
+    GET http://51.250.20.80:8000/api/v1/files/ # Get all objects
+    POST http://51.250.20.80:8000/api/v1/upload/ # Upload file (You can attach any file)
 
 ## Running Tests
 To run the tests, use the following command:
